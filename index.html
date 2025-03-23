@@ -102,7 +102,7 @@
         <br>
         <img id="qrImage">
         <br>
-        <button onclick="downloadQR()" id="downloadButton" style="display:none;">Download QR Code</button>
+        <a id="downloadLink" download="qrcode.png">Download QR Code</a>
     </div>
 
     <script>
@@ -121,24 +121,14 @@
             var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=${qrSize}x${qrSize}&color=${qrColor}&bgcolor=${bgColor}&ecc=${errorLevel}`;
 
             var qrImage = document.getElementById("qrImage");
-            var downloadButton = document.getElementById("downloadButton");
+            var downloadLink = document.getElementById("downloadLink");
 
             qrImage.src = qrUrl;
             qrImage.style.display = "block";
-            downloadButton.style.display = "inline-block";
-            downloadButton.setAttribute("data-url", qrUrl);
-        }
 
-        function downloadQR() {
-            var downloadButton = document.getElementById("downloadButton");
-            var qrUrl = downloadButton.getAttribute("data-url");
-
-            var link = document.createElement("a");
-            link.href = qrUrl;
-            link.download = "qrcode.png";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Download link set करें
+            downloadLink.href = qrUrl;
+            downloadLink.style.display = "inline-block";
         }
     </script>
 </body>
