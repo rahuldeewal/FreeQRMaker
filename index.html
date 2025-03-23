@@ -102,7 +102,7 @@
         <br>
         <img id="qrImage">
         <br>
-        <a id="downloadLink" download="qrcode.png">Download QR Code</a>
+        <a id="downloadLink">Download QR Code</a>
     </div>
 
     <script>
@@ -126,9 +126,16 @@
             qrImage.src = qrUrl;
             qrImage.style.display = "block";
 
-            // Download link set करें
-            downloadLink.href = qrUrl;
-            downloadLink.style.display = "inline-block";
+            // **QR कोड डाउनलोड करने के लिए कोड**
+            fetch(qrUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    var blobUrl = URL.createObjectURL(blob);
+                    downloadLink.href = blobUrl;
+                    downloadLink.download = "qrcode.png";
+                    downloadLink.style.display = "inline-block";
+                })
+                .catch(error => console.error("Download Error:", error));
         }
     </script>
 </body>
