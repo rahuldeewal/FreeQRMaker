@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,11 +19,11 @@
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             width: 90%;
-            max-width: 400px;
+            max-width: 500px;
             margin-left: auto;
             margin-right: auto;
         }
-        input {
+        input, select {
             width: 80%;
             padding: 10px;
             margin: 10px 0;
@@ -42,8 +41,9 @@
         button:hover {
             background: #0056b3;
         }
-        #qrcode {
+        img {
             margin-top: 20px;
+            max-width: 100%;
         }
         a {
             display: none;
@@ -64,16 +64,19 @@
         <h2>QR Code Generator</h2>
         <input type="text" id="qrText" placeholder="अपना टेक्स्ट डालें">
         <br>
+        <input type="color" id="qrColor" value="#000000">
+        <input type="color" id="bgColor" value="#ffffff">
+        <br>
+        <input type="number" id="qrSize" placeholder="QR Code Size (e.g., 200)" min="100" max="1000">
+        <br>
         <button onclick="generateQR()">Generate QR Code</button>
         <br>
-        <div id="qrcode"></div>
+        <img id="qrImage" src="" style="display: none;">
         <br>
-        <button id="downloadBtn">Download QR Code</button>
+        <a id="downloadLink" href="#" download="qrcode.png">Download QR Code</a>
     </div>
 
     <script>
-        var qrCode = null;
-
         function generateQR() {
             var text = document.getElementById("qrText").value;
             if (text.trim() === "") {
@@ -81,35 +84,20 @@
                 return;
             }
 
-            // पुराना QR हटाएं
-            document.getElementById("qrcode").innerHTML = "";
+            var qrColor = document.getElementById("qrColor").value.replace("#", "");
+            var bgColor = document.getElementById("bgColor").value.replace("#", "");
+            var qrSize = document.getElementById("qrSize").value || 200;
 
-            qrCode = new QRCode(document.getElementById("qrcode"), {
-                text: text,
-                width: 200,
-                height: 200
-            });
+            var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=${qrSize}x${qrSize}&color=${qrColor}&bgcolor=${bgColor}`;
 
-            document.getElementById("downloadBtn").style.display = "block";
+            var qrImage = document.getElementById("qrImage");
+            var downloadLink = document.getElementById("downloadLink");
+
+            qrImage.src = qrUrl;
+            qrImage.style.display = "block";
+            downloadLink.href = qrUrl;
+            downloadLink.style.display = "inline-block";
         }
-
-        document.getElementById("downloadBtn").addEventListener("click", function () {
-            if (!qrCode) {
-                alert("QR Code नहीं मिला! पहले QR Code जनरेट करें।");
-                return;
-            }
-            let qrCanvas = document.querySelector("#qrcode canvas");
-            if (qrCanvas) {
-                let link = document.createElement("a");
-                link.href = qrCanvas.toDataURL("image/png");
-                link.download = "qrcode.png";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } else {
-                alert("QR Code नहीं मिला!");
-            }
-        });
     </script>
 </body>
 </html>
