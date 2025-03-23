@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
+    <meta name="description" content="QR Code Generator - फ्री में कस्टमाइज़ QR कोड बनाएं और डाउनलोड करें।">
+    <meta name="keywords" content="QR Code Generator, Free QR Code, Custom QR, Online QR Generator">
+    <meta name="author" content="आपका नाम">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,25 +26,22 @@
             margin-left: auto;
             margin-right: auto;
         }
-        input, select, label {
+        input, select {
             width: 80%;
             padding: 10px;
             margin: 10px 0;
+            border: 1px solid #ddd;
             border-radius: 5px;
         }
         .color-picker {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            margin: 10px 0;
+            gap: 10px;
         }
         .color-picker label {
-            flex: 1;
-            text-align: left;
+            font-size: 14px;
             font-weight: bold;
-        }
-        .color-picker input {
-            flex: 1;
         }
         button {
             background: #007bff;
@@ -55,7 +55,7 @@
         button:hover {
             background: #0056b3;
         }
-        canvas {
+        img {
             margin-top: 20px;
             max-width: 100%;
             display: none;
@@ -80,54 +80,53 @@
         <input type="text" id="qrText" placeholder="अपना टेक्स्ट डालें">
         
         <div class="color-picker">
-            <label for="qrColor">QR Code रंग:</label>
+            <label for="qrColor">QR कोड का रंग:</label>
             <input type="color" id="qrColor" value="#000000">
         </div>
-
+        
         <div class="color-picker">
-            <label for="bgColor">पृष्ठभूमि रंग:</label>
+            <label for="bgColor">बैकग्राउंड रंग:</label>
             <input type="color" id="bgColor" value="#ffffff">
         </div>
-
+        
+        <select id="errorLevel">
+            <option value="L">Low Error Correction (L)</option>
+            <option value="M">Medium Error Correction (M)</option>
+            <option value="Q">Quartile Error Correction (Q)</option>
+            <option value="H">High Error Correction (H)</option>
+        </select>
+        
         <input type="number" id="qrSize" placeholder="QR Code Size (e.g., 200)" min="100" max="1000">
         
         <button onclick="generateQR()">Generate QR Code</button>
         <br>
-        <canvas id="qrCanvas"></canvas>
+        <img id="qrImage">
         <br>
         <a id="downloadLink" href="#" download="qrcode.png">Download QR Code</a>
     </div>
 
     <script>
         function generateQR() {
-            var text = document.getElementById("qrText").value;
-            if (text.trim() === "") {
+            var text = document.getElementById("qrText").value.trim();
+            if (text === "") {
                 alert("कृपया टेक्स्ट डालें!");
                 return;
             }
 
             var qrColor = document.getElementById("qrColor").value.replace("#", "");
             var bgColor = document.getElementById("bgColor").value.replace("#", "");
+            var errorLevel = document.getElementById("errorLevel").value;
             var qrSize = document.getElementById("qrSize").value || 200;
 
-            var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=${qrSize}x${qrSize}&color=${qrColor}&bgcolor=${bgColor}`;
+            var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=${qrSize}x${qrSize}&color=${qrColor}&bgcolor=${bgColor}&ecc=${errorLevel}`;
 
-            var qrCanvas = document.getElementById("qrCanvas");
-            var ctx = qrCanvas.getContext("2d");
-            var qrImage = new Image();
-            qrImage.crossOrigin = "Anonymous";
+            var qrImage = document.getElementById("qrImage");
+            var downloadLink = document.getElementById("downloadLink");
+
             qrImage.src = qrUrl;
-
-            qrImage.onload = function () {
-                qrCanvas.width = qrSize;
-                qrCanvas.height = qrSize;
-                ctx.drawImage(qrImage, 0, 0, qrSize, qrSize);
-                qrCanvas.style.display = "block";
-
-                var downloadLink = document.getElementById("downloadLink");
-                downloadLink.href = qrCanvas.toDataURL("image/png");
-                downloadLink.style.display = "inline-block";
-            };
+            qrImage.style.display = "block";
+            downloadLink.href = qrUrl;
+            downloadLink.style.display = "inline-block";
         }
     </script>
 </body>
