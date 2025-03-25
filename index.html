@@ -3,22 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator - Free & Customizable</title>
-    <meta name="description" content="Generate high-quality QR codes instantly with customizable colors and sizes.">
-    <meta name="keywords" content="QR Code Generator, Free QR Code, Custom QR Code, QR Maker">
+    <title>🔥 Free QR Code Generator - Create Your QR Code in 1 Click! (2025)</title>
+    <meta name="description" content="QR Code Generator - Create and download customized QR codes for free.">
+    <meta name="keywords" content="QR Code Generator, Free QR Code, Custom QR, Online QR Generator">
     <meta name="author" content="Your Name">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #2E2E2E;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+            background: #FFFACD;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            color: black;
+        }
+        input, select {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .color-picker {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .color-picker label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            display: none;
+        }
+        a {
+            display: none;
+            margin-top: 20px;
+            text-decoration: none;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        a:hover {
+            background: #218838;
+        }
+        /* How to Use Section */
+        .how-to-use {
+            background: #F8F9FA;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+            color: black;
+        }
+        .how-to-use h3 {
+            color: #007bff;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <h2>QR Code Generator</h2>
-        <button id="themeToggle">🌙 Dark Mode</button>
-    </nav>
-
     <div class="container">
-        <h2>Create Your QR Code</h2>
-        <input type="text" id="qrText" placeholder="Enter text or URL" oninput="generateQR()">
+        <h2>QR Code Generator</h2>
+        <input type="text" id="qrText" placeholder="Enter text" oninput="generateQR()">
         
         <div class="color-picker">
             <label for="qrColor">QR Code Color:</label>
@@ -31,10 +103,10 @@
         </div>
         
         <select id="errorLevel">
-            <option value="L">Low Error Correction</option>
-            <option value="M">Medium Error Correction</option>
-            <option value="Q">High Error Correction</option>
-            <option value="H">Maximum Error Correction</option>
+            <option value="L">Low Error Correction (L)</option>
+            <option value="M">Medium Error Correction (M)</option>
+            <option value="Q">Quartile Error Correction (Q)</option>
+            <option value="H">High Error Correction (H)</option>
         </select>
         
         <input type="number" id="qrSize" placeholder="QR Code Size (e.g., 200)" min="100" max="1000">
@@ -43,15 +115,67 @@
         <button onclick="resetQR()">Reset</button>
         <button onclick="copyText()">Copy Text</button>
         
+        <br>
         <img id="qrImage">
+        <br>
         <a id="downloadLink">Download QR Code</a>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 QR Code Generator | <a href="#">Privacy Policy</a> | <a href="#">Contact</a></p>
-    </footer>
+    <!-- How to Use Section -->
+    <div class="how-to-use">
+        <h3>कैसे उपयोग करें?</h3>
+        <p>1️⃣ **टेक्स्ट डालें**: QR कोड में जो टेक्स्ट, लिंक या डेटा एम्बेड करना चाहते हैं, उसे इनपुट बॉक्स में टाइप करें।</p>
+        <p>2️⃣ **रंग चुनें**: QR कोड और बैकग्राउंड का रंग चुनें।</p>
+        <p>3️⃣ **एरर करेक्शन चुनें**: (L, M, Q, H) से उपयुक्त एरर करेक्शन लेवल चुनें।</p>
+        <p>4️⃣ **QR साइज चुनें**: QR कोड का साइज (पिक्सल में) सेट करें।</p>
+        <p>5️⃣ **Generate QR Code दबाएं**: कोड अपने आप बन जाएगा और दिखने लगेगा।</p>
+        <p>6️⃣ **QR कोड डाउनलोड करें**: **Download QR Code** बटन से सेव करें।</p>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+        function generateQR() {
+            var text = document.getElementById("qrText").value.trim();
+            if (text === "") return;
+
+            var qrColor = document.getElementById("qrColor").value.replace("#", "");
+            var bgColor = document.getElementById("bgColor").value.replace("#", "");
+            var errorLevel = document.getElementById("errorLevel").value;
+            var qrSize = document.getElementById("qrSize").value || 200;
+
+            var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=${qrSize}x${qrSize}&color=${qrColor}&bgcolor=${bgColor}&ecc=${errorLevel}`;
+
+            var qrImage = document.getElementById("qrImage");
+            var downloadLink = document.getElementById("downloadLink");
+
+            qrImage.src = qrUrl;
+            qrImage.style.display = "block";
+
+            fetch(qrUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    var blobUrl = URL.createObjectURL(blob);
+                    downloadLink.href = blobUrl;
+                    downloadLink.download = "qrcode.png";
+                    downloadLink.style.display = "inline-block";
+                })
+                .catch(error => console.error("Download Error:", error));
+        }
+
+        function resetQR() {
+            document.getElementById("qrText").value = "";
+            document.getElementById("qrImage").style.display = "none";
+            document.getElementById("downloadLink").style.display = "none";
+        }
+
+        function copyText() {
+            var text = document.getElementById("qrText").value;
+            if (text === "") {
+                alert("Please enter text to copy.");
+                return;
+            }
+            navigator.clipboard.writeText(text);
+            alert("Text copied to clipboard!");
+        }
+    </script>
 </body>
 </html>
