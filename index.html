@@ -1,22 +1,12 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJ4DV4GSLH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MJ4DV4GSLH');
-</script>
-    <meta name="google-site-verification" content="HdbqJQ9QnbjfB-Gut9UrJw6oTDKO4fCIBLDHGMgcZnU" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 मुफ्त QR कोड जनरेटर - 1 क्लिक में बनाए अपना QR Code! (2025)</title>
-    <meta name="description" content="QR Code Generator - फ्री में कस्टमाइज़ QR कोड बनाएं और डाउनलोड करें।">
+    <title>🔥 Free QR Code Generator - Create Your QR Code in 1 Click! (2025)</title>
+    <meta name="description" content="QR Code Generator - Create and download customized QR codes for free.">
     <meta name="keywords" content="QR Code Generator, Free QR Code, Custom QR, Online QR Generator">
-    <meta name="author" content="आपका नाम">
+    <meta name="author" content="Your Name">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,17 +14,19 @@
             background-color: #2E2E2E;
             margin: 0;
             padding: 0;
+            color: white;
         }
         .container {
-    margin-top: 50px;
-    background: #FFFACD; /* हल्का पीला (LemonChiffon) */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+            margin-top: 50px;
+            background: #FFFACD;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            color: black;
         }
         input, select {
             width: 80%;
@@ -60,7 +52,7 @@
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
-            margin-top: 10px;
+            margin: 5px;
         }
         button:hover {
             background: #0056b3;
@@ -87,15 +79,15 @@
 <body>
     <div class="container">
         <h2>QR Code Generator</h2>
-        <input type="text" id="qrText" placeholder="अपना टेक्स्ट डालें">
+        <input type="text" id="qrText" placeholder="Enter text" oninput="generateQR()">
         
         <div class="color-picker">
-            <label for="qrColor">QR कोड का रंग:</label>
+            <label for="qrColor">QR Code Color:</label>
             <input type="color" id="qrColor" value="#000000">
         </div>
         
         <div class="color-picker">
-            <label for="bgColor">बैकग्राउंड रंग:</label>
+            <label for="bgColor">Background Color:</label>
             <input type="color" id="bgColor" value="#ffffff">
         </div>
         
@@ -109,6 +101,9 @@
         <input type="number" id="qrSize" placeholder="QR Code Size (e.g., 200)" min="100" max="1000">
         
         <button onclick="generateQR()">Generate QR Code</button>
+        <button onclick="resetQR()">Reset</button>
+        <button onclick="copyText()">Copy Text</button>
+        
         <br>
         <img id="qrImage">
         <br>
@@ -118,10 +113,7 @@
     <script>
         function generateQR() {
             var text = document.getElementById("qrText").value.trim();
-            if (text === "") {
-                alert("कृपया टेक्स्ट डालें!");
-                return;
-            }
+            if (text === "") return;
 
             var qrColor = document.getElementById("qrColor").value.replace("#", "");
             var bgColor = document.getElementById("bgColor").value.replace("#", "");
@@ -136,7 +128,6 @@
             qrImage.src = qrUrl;
             qrImage.style.display = "block";
 
-            // **QR कोड डाउनलोड करने के लिए कोड**
             fetch(qrUrl)
                 .then(response => response.blob())
                 .then(blob => {
@@ -146,6 +137,22 @@
                     downloadLink.style.display = "inline-block";
                 })
                 .catch(error => console.error("Download Error:", error));
+        }
+
+        function resetQR() {
+            document.getElementById("qrText").value = "";
+            document.getElementById("qrImage").style.display = "none";
+            document.getElementById("downloadLink").style.display = "none";
+        }
+
+        function copyText() {
+            var text = document.getElementById("qrText").value;
+            if (text === "") {
+                alert("Please enter text to copy.");
+                return;
+            }
+            navigator.clipboard.writeText(text);
+            alert("Text copied to clipboard!");
         }
     </script>
 </body>
